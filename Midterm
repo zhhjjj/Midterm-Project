@@ -65,8 +65,11 @@ print(a)
 a.plot.pie(figsize=(6,6))
 
 
+df['Tax Before Promotions'] = df['Tax Before Promotions'].str.replace(r'$', ' ', regex=True).astype(float)
 x = df['Order Date']
-y = df['Total Charged']
-plt.plot(x,y)
+y1 = df['Total Charged']
+y2 = df['Tax Before Promotions']
+plt.plot(x,y1)
+plt.plot(x,y2, '-.')
 plt.gcf().autofmt_xdate()
 plt.show()
