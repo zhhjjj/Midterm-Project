@@ -38,3 +38,35 @@ print(y)
 
 
 
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+df = pd.read_csv('amazon-orders.csv')
+df = df.fillna(0)
+df['Total Charged'] = df['Total Charged'].str.replace(r'$', ' ', regex=True).astype(float)
+df.head()
+print('The total expense is', df["Total Charged"].sum())
+print('The mean of total expense is', df["Total Charged"].mean())
+print('The median of expenses is', df["Total Charged"].median())
+print('The maximal expense is', df["Total Charged"].max())
+print('The minimal expense is', df["Total Charged"].min())
+print('The standard deviation of total expense is', df['Total Charged'].std() )
+
+
+df['Order Date'] = pd.to_datetime(df['Order Date'])
+df.head()
+df.plot.bar(x='Order Date', y='Total Charged', rot=90, figsize=(20,10))
+
+
+df['price']=pd.cut(df["Total Charged"], bins = [0,25,50,100,10000], labels = ['Less than 25', '26 to 50', '50 to 100', 'Over 100'], include_lowest = True)
+a = df['price'].value_counts()
+print(a)
+a.plot.pie(figsize=(6,6))
+
+
+x = df['Order Date']
+y = df['Total Charged']
+plt.plot(x,y)
+plt.gcf().autofmt_xdate()
+plt.show()
